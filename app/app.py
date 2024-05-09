@@ -19,6 +19,7 @@ app.config.update(
     DROPZONE_ALLOWED_FILE_TYPE = '.pdf',
     DROPZONE_MAX_FILES = 1,
     DROPZONE_DEFAULT_MESSAGE = "<img class=\"logo\" src=\"/static/svg/pdf_icon.svg\" alt=\"pdf icon\">Drop files here to upload"
+    DROPZONE_MAX_FILE_SIZE = 30
 )
 dropzone = Dropzone(app)
 executor = Executor(app)
