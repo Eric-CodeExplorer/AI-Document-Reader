@@ -16,8 +16,8 @@ class Conversation():
             files= file_streams
         )
 
-        print(f"file_batch.status:{file_batch.status}")
-        print(f"file_batch.file_counts:{file_batch.file_counts}")
+        # print(f"file_batch.status:{file_batch.status}")
+        # print(f"file_batch.file_counts:{file_batch.file_counts}")
 
         # Update the assistant to use the new Vector Store
         self.client.beta.assistants.update(
@@ -51,6 +51,6 @@ class Conversation():
             thread_id= self.thread.id
         ))
         output = messages[0].content[0].text.value
-        print("Assistant > ", end="\t")
-        print(output)
+        # print("Assistant > ", end="\t")
+        # print(output)
         return output
