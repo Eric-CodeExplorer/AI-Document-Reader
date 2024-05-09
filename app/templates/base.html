@@ -31,7 +31,7 @@
                     <div class="history">Conversation History</div>
                     <script>
                         let h_list = {{ h_list | tojson }};
-                        console.log(h_list);
+                        // console.log(h_list);
                         let list = document.getElementById("conversation_list");
                         for (var i = 0; i < h_list.length; i++){
                             let newConversation = document.createElement("li");

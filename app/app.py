@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from flask_dropzone import Dropzone
 from flask_executor import Executor
 from conversation import *
+from waitress import serve
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -232,4 +233,4 @@ if __name__ == "__main__":
         tools=[{"type": "file_search"}],
     )
 
-    app.run(debug=True)
+    serve(app,host="0.0.0.0", port = 8000)
