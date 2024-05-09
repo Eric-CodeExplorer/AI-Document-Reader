@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block main_content %}
+{{ dropzone.load_css() }}
+{{ dropzone.style(
+    'border: 2px dashed #AC9362; 
+    margin: 10px; 
+    padding: 1%; 
+    border-radius: 1.5rem; 
+    font-size: 1.5rem;
+    img {
+        padding: 0 10px;
+    }')}}
+{{ dropzone.create(action='home') }}
+{{ dropzone.load_js() }}
+{{ dropzone.config(
+    custom_options="success: function(file, response){
+        console.log(response.cid);
+        const redirect_url = '/conversation/' + response.cid;
+        localStorage.setItem('this_url',redirect_url);
+        localStorage.setItem('cid',response.cid);
+        window.location.href = redirect_url;
+        }")
+}}
+{% endblock %}  

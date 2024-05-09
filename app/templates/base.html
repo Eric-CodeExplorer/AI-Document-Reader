@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Reader</title>
+    <!-- <link rel="stylesheet" href="\app\static\css\style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="/">
+                <!-- <img class="logo" src="{{ url_for('static', filename='svg/ai_icon.svg') }}" alt="logo icon"> -->
+                <img class="logo" src="/static/svg/ai_icon.svg" alt="logo icon">                
+            </a>
+            </div>
+
+            <div class="main-header">
+                <div>AI Document Reader</div>
+            </div>
+
+        </header>
+
+        <main>
+            <div class="body-left">
+                <ul id="conversation_list">
+                    <div class="history">Conversation History</div>
+                    <script>
+                        let h_list = {{ h_list | tojson }};
+                        console.log(h_list);
+                        let list = document.getElementById("conversation_list");
+                        for (var i = 0; i < h_list.length; i++){
+                            let newConversation = document.createElement("li");
+                            let redirect_url = '/conversation/' + h_list[i];
+                            newConversation.textContent = "Conversation " + (i+1);
+                            newConversation.onclick = function(){
+                                window.location.href = redirect_url;
+                            }
+                            list.appendChild(newConversation);
+                        }
+                    </script>
+                </ul>
+            </div>
+
+            <div class="body-right">
+                {% block main_content %}{% endblock %}
+            </div>
+
+        </main>
+    </div>
+    <!-- <script src = "\app\static\js\script.js">  </script> -->
+</body>
+</html>

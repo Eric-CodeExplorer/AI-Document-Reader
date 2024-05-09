@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block main_content %}
+<div class="chat-zone">
+    <div class="chat-box">
+        <script>
+            var response = {{ data | tojson }};
+            appendAllMsg(response);
+        </script>
+    </div>
+    <div class="input-box">
+        <form action="#" id ="input-bar" class="input-bar" method="post">
+            <input type="text" name = "input-msg" id = "input-msg" class="input-msg" placeholder="Type your message here">
+            <button type="submit" class="input-btn">Send</button>
+        </form>
+        <div class="notify">AI model: gpt-4-turbo</div>
+    </div>
+</div>
+
+<script>
+    var cid = localStorage.getItem('cid');
+    var status = response.status;
+    $(document).ready(function() {
+        // Function to check task result
+        function checkTaskResult(cid) {
+            $.ajax({
+                url: "/check_task_result",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ cid: cid }),
+                success: function(response) {
+                    // console.log(response.status)    
+                    if (response.status !== null) {
+                        // Update the conversation container with the task result
+                        // console.log("Hello")
+                        // console.log(response.message)
+                        let role = response.data.role;
+                        var source,name;
+                        if (role === "user"){
+                            source = "/static/svg/user_icon.svg";
+                            name = "You";
+                        }else{
+                            source = "/static/svg/ai_icon.svg";
+                            name = "AI Document Reader";
+                        }
+                        $(".msg-container:last").html(`
+                            <div class="msg-container-left">
+                                <img class="icon" src="${source}" alt="icon">
+                            </div>
+                            <div class="msg-container-right">
+                                <h5>${name}</h5>
+                                <pre>${response.data[0].content[0].text.value}</pre>
+                             </div>`
+                        );
+                        unhide_input_bar();
+                    } else {
+                        // Task result not available yet, check again after a delay
+                        setTimeout(function() {
+                            checkTaskResult(cid);
+                        }, 1500); // Check again after 1.5 second (adjust as needed)
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error checking task result:", error);
+                }
+            });
+        }
+        if (status !== "good") {
+            hide_input_bar();
+            checkTaskResult(cid);
+        }
+    });
+</script> 
+{% endblock %}
